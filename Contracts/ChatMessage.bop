@@ -1,0 +1,3 @@
+message ChatMessage {
+    1 -> string text;    
+}
