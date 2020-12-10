@@ -36,7 +36,11 @@ namespace Server
             Console.WriteLine("Incoming: " + record.Text);
 
             // Multicast message to all connected sessions
-            Server.Multicast(buffer);
+            var message = BebopMirror
+                .GetRecord(nameof(ChatMessage))
+                .Encode(new ChatMessage {Text =$"Server says {record.Text}" });
+            
+            Server.Multicast(message);
 
             // If the buffer starts with '!' the disconnect the current session
             if (record.Text == "!")
