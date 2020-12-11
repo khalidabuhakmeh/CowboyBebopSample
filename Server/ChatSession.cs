@@ -28,18 +28,13 @@ namespace Server
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             // todo: replace with Bebop
-            var record = BebopMirror
-                .GetRecord(nameof(ChatMessage))
-                .Decode<ChatMessage>(buffer);
+            var record = ChatMessage.Decode(buffer);
             
             //string message =  Encoding.UTF8.GetString(buffer, (int)offset, (int)size);
             Console.WriteLine("Incoming: " + record.Text);
 
             // Multicast message to all connected sessions
-            var message = BebopMirror
-                .GetRecord(nameof(ChatMessage))
-                .Encode(new ChatMessage {Text =$"Server says {record.Text}" });
-            
+            var message = ChatMessage.Encode(new ChatMessage {Text =$"Server says {record.Text}" });
             Server.Multicast(message);
 
             // If the buffer starts with '!' the disconnect the current session

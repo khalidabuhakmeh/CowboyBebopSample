@@ -1,5 +1,4 @@
 ﻿using System;
-using Bebop.Runtime;
 using Client;
 using Cowboy.Contracts;
 
@@ -45,10 +44,7 @@ for (;;)
     }
 
     // Send the entered text to the chat server
-    var message = BebopMirror
-        .GetRecord(nameof(ChatMessage))
-        .Encode(new ChatMessage {Text = line});
-    
+    var message = ChatMessage.Encode(new ChatMessage {Text = line});
     client.SendAsync(message);
 }
 
