@@ -18,7 +18,11 @@ namespace Cowboy.Contracts {
   [System.CodeDom.Compiler.GeneratedCode("bebopc", "2.0.3")]
   [BebopRecord]
   public abstract class BaseChatMessage : System.IEquatable<BaseChatMessage> {
+    public const uint OpCode = 0x12345678;
     #nullable enable
+        /// <summary>
+        /// this seems to work
+        /// </summary>
     [System.Diagnostics.CodeAnalysis.MaybeNull, System.Diagnostics.CodeAnalysis.AllowNull]
     public string? Text { get; set; }
     #nullable disable
@@ -195,6 +199,208 @@ namespace Cowboy.Contracts {
             return record;
           case 1:
             record.Text = reader.ReadString();
+            break;
+          default:
+            reader.Position = end;
+            return record;
+        }
+      }
+    }
+  }
+  [System.CodeDom.Compiler.GeneratedCode("bebopc", "2.0.3")]
+  [BebopRecord]
+  public abstract class BaseNetworkMessage : System.IEquatable<BaseNetworkMessage> {
+    #nullable enable
+    [System.Diagnostics.CodeAnalysis.MaybeNull, System.Diagnostics.CodeAnalysis.AllowNull]
+    public ulong? IncomingOpCode { get; set; }
+    [System.Diagnostics.CodeAnalysis.MaybeNull, System.Diagnostics.CodeAnalysis.AllowNull]
+    public ImmutableArray<byte> IncomingRecord { get; set; }
+    #nullable disable
+
+    public bool Equals(BaseNetworkMessage other) {
+      if (ReferenceEquals(null, other)) {
+        return false;
+      }
+      if (ReferenceEquals(this, other)) {
+        return true;
+      }
+      return IncomingOpCode == other.IncomingOpCode && (IncomingRecord == null ? other.IncomingRecord == null : other.IncomingRecord != null && IncomingRecord.SequenceEqual(other.IncomingRecord));
+    }
+
+    public override bool Equals(object obj) {
+      if (ReferenceEquals(null, obj)) {
+        return false;
+      }
+      if (ReferenceEquals(this, obj)) {
+        return true;
+      }
+      if (obj is not BaseNetworkMessage baseType) {
+        return false;
+      }
+      return Equals(baseType);
+    }
+
+    public override int GetHashCode() {
+      int hash = 1;
+      if (IncomingOpCode is not null) hash ^= IncomingOpCode.Value.GetHashCode();
+      if (IncomingRecord != null) hash ^= IncomingRecord.GetHashCode();
+      return hash;
+    }
+
+    public static bool operator ==(BaseNetworkMessage left, BaseNetworkMessage right) => Equals(left, right);
+    public static bool operator !=(BaseNetworkMessage left, BaseNetworkMessage  right) => !Equals(left, right);
+
+  }
+
+  /// <inheritdoc />
+  [System.CodeDom.Compiler.GeneratedCode("bebopc", "2.0.3")]
+  [BebopRecord]
+  public sealed class NetworkMessage : BaseNetworkMessage {
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static byte[] Encode(BaseNetworkMessage record) {
+      var writer = BebopWriter.Create();
+      EncodeInto(record, ref writer);
+      return writer.ToArray();
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public byte[] Encode() {
+      var writer = BebopWriter.Create();
+      EncodeInto(this, ref writer);
+      return writer.ToArray();
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static ImmutableArray<byte> EncodeAsImmutable(BaseNetworkMessage record) {
+      var writer = BebopWriter.Create();
+      EncodeInto(record, ref writer);
+      return writer.ToImmutableArray();
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public ImmutableArray<byte> EncodeAsImmutable() {
+      var writer = BebopWriter.Create();
+      EncodeInto(this, ref writer);
+      return writer.ToImmutableArray();
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    internal static void EncodeInto(BaseNetworkMessage record, ref BebopWriter writer) {
+      var pos = writer.ReserveRecordLength();
+      var start = writer.Length;
+
+      if (record.IncomingOpCode is not null) {
+        writer.WriteByte(1);
+        writer.WriteUInt64(record.IncomingOpCode.Value);
+      }
+
+      if (record.IncomingRecord != null) {
+        writer.WriteByte(2);
+        writer.WriteBytes(record.IncomingRecord);
+      }
+      writer.WriteByte(0);
+      var end = writer.Length;
+      writer.FillRecordLength(pos, unchecked((uint) unchecked(end - start)));
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static T DecodeAs<T>(byte[] record) where T : BaseNetworkMessage, new() {
+      var reader = BebopReader.From(record);
+      return DecodeFrom<T>(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static NetworkMessage Decode(byte[] record) {
+      var reader = BebopReader.From(record);
+      return DecodeFrom(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static T DecodeAs<T>(System.ReadOnlySpan<byte> record) where T : BaseNetworkMessage, new() {
+      var reader = BebopReader.From(record);
+      return DecodeFrom<T>(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static NetworkMessage Decode(System.ReadOnlySpan<byte> record) {
+      var reader = BebopReader.From(record);
+      return DecodeFrom(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static T DecodeAs<T>(System.ReadOnlyMemory<byte> record) where T : BaseNetworkMessage, new() {
+      var reader = BebopReader.From(record);
+      return DecodeFrom<T>(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static NetworkMessage Decode(System.ReadOnlyMemory<byte> record) {
+      var reader = BebopReader.From(record);
+      return DecodeFrom(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static T DecodeAs<T>(System.ArraySegment<byte> record) where T : BaseNetworkMessage, new() {
+      var reader = BebopReader.From(record);
+      return DecodeFrom<T>(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static NetworkMessage Decode(System.ArraySegment<byte> record) {
+      var reader = BebopReader.From(record);
+      return DecodeFrom(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static T DecodeAs<T>(ImmutableArray<byte> record) where T : BaseNetworkMessage, new() {
+      var reader = BebopReader.From(record);
+      return DecodeFrom<T>(ref reader);
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    public static NetworkMessage Decode(ImmutableArray<byte> record) {
+      var reader = BebopReader.From(record);
+      return DecodeFrom(ref reader);
+    }
+
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    internal static NetworkMessage DecodeFrom(ref BebopReader reader) {
+
+      var record = new NetworkMessage();
+      var length = reader.ReadRecordLength();
+      var end = unchecked((int) (reader.Position + length));
+      while (true) {
+        switch (reader.ReadByte()) {
+          case 0:
+            return record;
+          case 1:
+            record.IncomingOpCode = reader.ReadUInt64();
+            break;
+          case 2:
+            record.IncomingRecord = reader.ReadBytes();
+            break;
+          default:
+            reader.Position = end;
+            return record;
+        }
+      }
+    }
+
+    [System.Runtime.CompilerServices.MethodImpl(BebopConstants.HotPath)]
+    internal static T DecodeFrom<T>(ref BebopReader reader) where T: BaseNetworkMessage, new() {
+      var record = new T();
+      var length = reader.ReadRecordLength();
+      var end = unchecked((int) (reader.Position + length));
+      while (true) {
+        switch (reader.ReadByte()) {
+          case 0:
+            return record;
+          case 1:
+            record.IncomingOpCode = reader.ReadUInt64();
+            break;
+          case 2:
+            record.IncomingRecord = reader.ReadBytes();
             break;
           default:
             reader.Position = end;

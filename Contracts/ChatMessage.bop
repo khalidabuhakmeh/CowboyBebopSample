@@ -1,5 +1,11 @@
+[opcode(0x12345678)]
 message ChatMessage {
     // awesome
-    /* this seems to work */
+    /* this seems to work */    
     1 -> string text;    
+}
+
+message NetworkMessage {
+    1 -> uint64 incomingOpCode;
+    2 -> byte[] incomingRecord;
 }

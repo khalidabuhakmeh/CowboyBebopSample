@@ -37,7 +37,6 @@ namespace Client
 
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
-            // todo: use bebop here
             var record = ChatMessage.Decode(buffer);
             Console.WriteLine(record.Text);
         }

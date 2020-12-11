@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,10 +15,6 @@
 
     <ItemGroup>
         <Bebop Include="**/*.bop" OutputDir="./Models/" OutputFile="Records.g.cs" Namespace="Cowboy.Contracts" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Models" />
     </ItemGroup>
 
 </Project>

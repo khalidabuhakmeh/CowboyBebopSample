@@ -44,7 +44,13 @@ for (;;)
     }
 
     // Send the entered text to the chat server
-    var message = ChatMessage.Encode(new ChatMessage {Text = line});
+    var message = NetworkMessage.Encode(new NetworkMessage {
+        IncomingOpCode = BaseChatMessage.OpCode,
+        IncomingRecord= ChatMessage.EncodeAsImmutable(
+            new ChatMessage { Text = line }
+        )
+    });
+    
     client.SendAsync(message);
 }
 
