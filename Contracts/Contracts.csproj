@@ -14,7 +14,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Bebop Include="**/*.bop" OutputDir="./Models/" OutputFile="Records.g.cs" Namespace="Cowboy.Contracts" />
+        <Bebop Include="**/*.bop" 
+               OutputDir="./Models/" 
+               OutputFile="Records.g.cs" 
+               Namespace="Cowboy.Contracts" />
     </ItemGroup>
 
 </Project>

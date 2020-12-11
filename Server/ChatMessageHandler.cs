@@ -14,7 +14,6 @@ namespace Server
         {
             var session = (ChatSession) state;
             
-            //string message =  Encoding.UTF8.GetString(buffer, (int)offset, (int)size);
             Console.WriteLine("Incoming: " + message.Text);
 
             // Multicast message to all connected sessions

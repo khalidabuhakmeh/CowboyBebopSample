@@ -7,9 +7,7 @@ int port = 1111;
 if (args.Length > 0)
     port = int.Parse(args[0]);
 
-Console.WriteLine($"TCP server port: {port}");
-
-Console.WriteLine();
+Console.WriteLine($"TCP server port: {port}\n");
 
 // Create a new TCP chat server
 var server = new ChatServer(IPAddress.Any, port);
@@ -18,7 +16,6 @@ var server = new ChatServer(IPAddress.Any, port);
 Console.Write("Server starting...");
 server.Start();
 Console.WriteLine("Done!");
-
 Console.WriteLine("Press Enter to stop the server or '!' to restart the server...");
 
 // Perform text input
