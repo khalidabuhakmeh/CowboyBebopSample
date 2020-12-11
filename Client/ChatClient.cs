@@ -1,8 +1,6 @@
 using System;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using Bebop.Runtime;
 using Cowboy.Contracts;
 using TcpClient = NetCoreServer.TcpClient;
 
@@ -14,7 +12,7 @@ namespace Client
 
         public void DisconnectAndStop()
         {
-            _stop = true;
+            stop = true;
             DisconnectAsync();
             while (IsConnected)
                 Thread.Yield();
@@ -33,7 +31,7 @@ namespace Client
             Thread.Sleep(1000);
 
             // Try to connect again
-            if (!_stop)
+            if (!stop)
                 ConnectAsync();
         }
 
@@ -49,6 +47,6 @@ namespace Client
             Console.WriteLine($"Chat TCP client caught an error with code {error}");
         }
 
-        private bool _stop;
+        private bool stop;
     }
 }
